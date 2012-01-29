@@ -1,0 +1,13 @@
+This is a simple tool to handle rolling dice with a variety of special
+rules.
+
+It is useable online, as an offline web app, and as a mobile app.
+
+To use, navigate to roll.html with a web browser. It must have
+roll.js, roll.js, and jquery.min.js in the same directory.
+
+As time goes on, more features will be added, including difference
+dice systems, and more customizability within given dice systems.
+
+The program's logic is written in JavaScript, and is primarily
+contained in roll.js
