@@ -8,5 +8,37 @@
 </head>
 <body>
 <h1>Dice Roller</h1>
+<h2>System: <span class="category">Old World of Darkness</span></h2>
+
+<div id="main">
+<div id="numberarea" class="section">Number of dice:
+<input type="number" id="number" min="1" />
+</div>
+
+<div id="diffarea" class="section">Difficulty:
+<input type="number" id="difficulty" min="1" max="10" />
+</div>
+
+<div id="diffarea" class="section">Threshold:
+<input type="number" id="treshold" min="1" max="10" />
+</div>
+
+<div id="optionarea" class="section">Options:
+<div id="explodearea" class="subsection">
+<input type="checkbox" id="exploding">High rolls explode</input>
+<span id="highrollarea" class="addendum">(lowest exploding value:
+<input type="number" id="highroll" min="1" max="10" value="10"
+       disabled="disabled" />)</span>
+</div>
+<div id="onearea" class="subsection">
+<input type="checkbox" id="onesubtract">Ones subtract</input>
+<span id="rerollonesarea" class="addendum">(
+<input type="checkbox" id="rerollones" checked="checked">
+Re-rolled ones subtract</input>)
+</span>
+</div>
+
+</div>
+
 </body>
 </html>
