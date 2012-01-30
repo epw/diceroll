@@ -110,6 +110,8 @@ function calculate_successes (results) {
 
     successes -= ones;
 
+    successes -= threshold;
+
     return successes;
 }
 
