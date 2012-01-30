@@ -5,6 +5,9 @@ var exploding = 11;
 var onessubtract = false;
 var rerollonessubtract = true;
 var results = [];
+var successes;
+var ones = 0;
+var botch_when = "none";
 
 var params;
 
@@ -24,15 +27,23 @@ function update_threshold () {
 function update_exploding () {
     if ($("#exploding").is(":checked")) {
 	exploding = parseInt ($("#highroll").val());
+	$("#highrollarea").removeClass ("inactive");
+	$("#highroll").prop ("disabled", "");
     } else {
 	exploding = 11;
+	$("#highrollarea").addClass ("inactive");
+	$("#highroll").prop ("disabled", "disabled");
     }
 }
 function update_ones () {
     if ($("#onessubtract").is(":checked")) {
 	onessubtract = true;
+	$("#rerollonesarea").removeClass ("inactive");
+	$("#rerollones").prop ("disabled", "");
     } else {
 	onessubtract = false;
+	$("#rerollonesarea").addClass ("inactive");
+	$("#rerollones").prop ("disabled", "disabled");
     }
 }
 function update_rerolled_ones () {
@@ -42,6 +53,9 @@ function update_rerolled_ones () {
 	rerollonessubtract = false;
     }
 }
+function update_botches () {
+    botch_when = $("#botchtype").val();
+}    
 
 function check_params () {
     if (params.hasOwnProperty ($(this).attr ("id"))) {
@@ -66,28 +80,81 @@ function output_results (results) {
     return output;
 }
 
-function roll (times) {
+function roll (times, initial) {
     for (var i = 0; i < times; i++) {
 	var rolled = die (10);
 	results.push (rolled);
 	if (rolled >= exploding) {
-	    roll (1);
+	    roll (1, false);
+	}
+	if (onessubtract) {
+	    if (rerollonessubtract || initial) {
+		if (rolled == 1) {
+		    ones++;
+		}
+	    }
 	}
     }
 }
 
-function roll_dice () {
+function is_success (value) {
+    return value >= diff;
+}
 
+function calculate_successes (results) {
+    for (r in results) {
+	if (is_success (results[r])) {
+	    successes++;
+	}
+    }
+
+    successes -= ones;
+
+    return successes;
+}
+
+function botch () {
+    return "<span class=\"botched\">BOTCH!</span>";
+}
+
+function calculate_botch (results) {
+    switch (botch_when) {
+    case "ones":
+	if (successes < 0 && results.filter (is_success).length == 0) {
+	    return botch ();
+	} else {
+	    return "";
+	}
+	break;
+    case "negative":
+	if (successes < 0) {
+	    return botch ();
+	} else {
+	    return "";
+	}
+	break;
+    case "none":
+    default:
+	return "";
+    }
+}    
+
+function roll_dice () {
     results = [];
-    roll (number);
+    successes = 0;
+    ones = 0;
+    roll (number, true);
     $("#results").text (output_results (results));
+    $("#successes").text ("Successes: " + calculate_successes (results));
+    $("#botches").html (calculate_botch (results));
 }
 
 function getUrlParams() {
     var params = {};
-    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str,key,value) {
-        params[key] = value;
-    });
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+				   function(str,key,value) {
+				       params[key] = value;
+				   });
     
     return params;
 }
@@ -104,9 +171,10 @@ function init () {
     $("#highroll").change (update_exploding);
     $("#onessubtract").change (update_ones);
     $("#rerollones").change (update_rerolled_ones);
+    $("#botchtype").change (update_botches);
 
     $("input").each (check_params);
-
+    $("select").each (check_params);
 }
 
 $(document).ready (init);

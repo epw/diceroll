@@ -15,6 +15,8 @@
 <div id="rollarea">
 <input type="button" id="roll" value="Roll" />
 <span id="results"></span>
+<span id="successes"></span>
+<span id="botches"></span>
 </div>
 
 <div id="numberarea" class="section">Number of dice:
@@ -22,7 +24,7 @@
 </div>
 
 <div id="diffarea" class="section">Difficulty:
-<input type="number" id="difficulty" min="1" max="10" value="6" />
+<input type="number" id="difficulty" min="2" max="10" value="6" />
 </div>
 
 <div id="diffarea" class="section">Threshold:
@@ -32,16 +34,24 @@
 <div id="optionarea" class="section">Options:
 <div id="explodearea" class="subsection">
 <input type="checkbox" id="exploding">High rolls explode</input>
-<span id="highrollarea" class="addendum">(lowest exploding value:
-<input type="number" id="highroll" min="1" max="10" value="10"
-       disabled="disabled" />)</span>
+<span id="highrollarea" class="addendum inactive">(lowest exploding
+  value: <input type="number" id="highroll" min="1" max="10"
+  value="10" disabled="disabled" />)</span>
 </div>
 <div id="onearea" class="subsection">
 <input type="checkbox" id="onessubtract">Ones subtract</input>
-<span id="rerollonesarea" class="addendum">(
-<input type="checkbox" id="rerollones" checked="checked">
-Re-rolled ones subtract</input>)
+<span id="rerollonesarea" class="addendum inactive">(
+<input type="checkbox" id="rerollones" checked="checked"
+       disabled="disabled">Re-rolled ones subtract</input>)
 </span>
+<div id="botcharea">
+Botches:
+<select id="botchtype">
+<option value="none">None</option>
+<option value="ones">Ones, no successes</option>
+<option value="negative">More ones than successes</option>
+</select>
+</div>
 </div>
 
 </div>
