@@ -1,3 +1,7 @@
 h1 { text-align: center }
 span.category { font-weight: normal }
 .inactive { color: gray }
+
+#rollarea { font-size: 110% }
+#results { border: medium ridge gray; padding: 0px 5px }
+#successnum { }

@@ -141,13 +141,18 @@ function calculate_botch (results) {
     }
 }    
 
+function wrap_successes (amount) {
+    return "<span id=\"successnum\">" + amount + "</span>";
+}
+
 function roll_dice () {
     results = [];
     successes = 0;
     ones = 0;
     roll (number, true);
     $("#results").text (output_results (results));
-    $("#successes").text ("Successes: " + calculate_successes (results));
+    $("#successes").html ("Successes: "
+			  + wrap_successes (calculate_successes (results)));
     $("#botches").html (calculate_botch (results));
 }
 
@@ -165,6 +170,7 @@ function init () {
     params = getUrlParams ();
 
     $("#roll").click (roll_dice);
+    $("#save").click (save);
 
     $("#number").change (update_number);
     $("#difficulty").change (update_diff);
